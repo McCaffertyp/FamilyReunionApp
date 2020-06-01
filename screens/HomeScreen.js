@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Alert, ImageBackground } from "react-native";
+/**
+ * @description CS446 UI Design class mockup application for implementation and presentation portion
+ * of class project.
+ * @author Paul McCafferty
+ * @version 1.0.2
+ */
+
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Alert, Platform } from "react-native";
 import Toast from "react-native-tiny-toast";
 import Colors from "../constants/Colors";
 
 const dHeight = Dimensions.get("window").height;
 const dWidth = Dimensions.get("window").width;
 
+//Hardcoded variables for the text that will show on each "post."
 var Spost1 = "The heckles am I gonna write? I do not know. This is for an assignment, so it's just writing what a post may say, ya know?"
 var Spost2 = "Here, I'll write a story and I'll make sure to label what parts are which so that the reader doesn't get too incredibly lost. There will be 7 parts";
 var Spost3 = "Part 1: It's morning, you have just woken up. What a wonderful day to be a Computer Scientist.";
@@ -16,12 +24,14 @@ var Opost1 = "Part 5: Nothing. Nothing happened all night except coding. Working
 var Opost2 = "Part 6: You didn't go to bed. Are you regretting it? No. Of course not. CS Majors don't ACTUALLY sleep. We just code all the time. Then game, then code... then...";
 var Opost3 = "Part 7: We ransack the fridge late at night, stuff our mouths, then go to bed satisfied with our procrastination. The End.";
 
+//Hardcoded variables for the people and posts.
 var people = ["Smudge the Cat", "Natsu", "Octane"];
 var relation = ["Pet", "Brother", "Car"];
 var postDates = [["Yesterday", "Tomorrow", "2 Weeks Ago"], ["6 Days Ago", "Sunday", "Yesterday"], ["Today", "Unknown", "Never"]];
 var personPosts = [[Spost1, Spost2, Spost3], [Npost1, Npost2, Npost3], [Opost1, Opost2, Opost3]];
-var profileImage = <Image style={{ resizeMode: "contain", height: 120, width: 120 }}
-    source={require("../assets/" + "Smudge_Cat_Meme.png")}
+//Starting profile image below.
+var profileImage = <Image style={{ resizeMode: "contain", height: 125, width: 125 }}
+    source={require("../assets/Smudge_Cat_Meme.png")}
 />
 
 const HomeScreen = props => {
@@ -42,11 +52,21 @@ const HomeScreen = props => {
     const [angryOpacity, setAngryOpacity] = useState(1.0);
     //const [isImage, setIsImage] = useState(false);
 
+    /**
+     * This method sets the postToDisplay variable and sets the datePosted variable.
+     * 
+     * @param {number} num1 profileDisplay number passed.
+     * @param {number} num2 smudge, natsu or octane postDisplay number passed.
+     */
     function displayPost(num1, num2) {
         setPostToDisplay(personPosts[num1][num2]);
         setDatePosted(postDates[num1][num2]);
     }
 
+    /**
+     * This method clears reactions when pressed then appropiately determines which post to display
+     * and sends that postDisplay number into the displayPost function call.
+     */
     function nextPostPressed() {
         clearReactions();
         if (profileDisplay === 0) {
@@ -73,6 +93,11 @@ const HomeScreen = props => {
         }
     }
 
+    /**
+     * This method sets the profileDisplay, relationDisplay and then assigns profileImage
+     * to the appropiate profileImage to be displayed and calls displayPost with the new
+     * profiles post to display.
+     */
     function nextPersonPressed() {
         clearReactions();
         if (profileDisplay === 0 || profileDisplay === 1) {
@@ -80,14 +105,14 @@ const HomeScreen = props => {
             setRelationDisplay(relationDisplay + 1);
             if (profileDisplay === 0) {
                 //setProfileImage("Natsu_Fire_background.jpg");
-                profileImage = <Image style={{ resizeMode: "contain", height: 120, width: 120 }}
-                    source={require("../assets/" + "Natsu_Fire_background.jpg")}
+                profileImage = <Image style={{ resizeMode: "contain", height: 125, width: 125 }}
+                    source={require("../assets/Natsu_Fire_background.jpg")}
                 />
                 displayPost(1, natsuPostDisplay);
             } else {
                 //setProfileImage("OctaneRL.png");
-                profileImage = <Image style={{ resizeMode: "contain", height: 120, width: 120 }}
-                    source={require("../assets/" + "OctaneRL.png")}
+                profileImage = <Image style={{ resizeMode: "contain", height: 125, width: 125 }}
+                    source={require("../assets/OctaneRL.png")}
                 />
                 displayPost(2, octanePostDisplay);
             }
@@ -95,13 +120,19 @@ const HomeScreen = props => {
             setProfileDisplay(0);
             setRelationDisplay(0);
             //setProfileImage("Smudge_Cat_Meme.png");
-            profileImage = <Image style={{ resizeMode: "contain", height: 120, width: 120 }}
-                source={require("../assets/" + "Smudge_Cat_Meme.png")}
+            profileImage = <Image style={{ resizeMode: "contain", height: 125, width: 125 }}
+                source={require("../assets/Smudge_Cat_Meme.png")}
             />
             displayPost(0, smudgePostDisplay);
         }
     }
 
+    /**
+     * This method determines which reaction was pressed and appropiately sets the
+     * button for pressed color and opacity, resetting all other reaction buttons at the same time.
+     * 
+     * @param {string} pressed String variable of whether the reaction "love", "laugh", "sad" or "angry" was pressed.
+     */
     function chosenReaction(pressed) {
         if (pressed === "love") {
             setLoveColor(Colors.pressed);
@@ -142,6 +173,9 @@ const HomeScreen = props => {
         }
     }
 
+    /**
+     * This method clears all reactions back to original state.
+     */
     function clearReactions() {
         setLoveColor(null);
         setLoveOpacity(1.0);
@@ -162,9 +196,9 @@ const HomeScreen = props => {
             >
                 <Text style={{ color: "white", fontSize: 24 }}>Next Person</Text>
             </TouchableOpacity>
-            <View style={{ flexDirection: "row", ...styles.curPersonProfile }}>
+            <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center", ...styles.curPersonProfile }}>
                 {profileImage}
-                <Text style={{ margin: 10, fontSize: 24, fontWeight: "bold" }}>
+                <Text style={{ margin: 10, fontSize: 20, fontWeight: "bold" }}>
                     {people[profileDisplay]}{"\n"}Relationship: {relation[relationDisplay]}{"\n"}Post Date: {datePosted}
                 </Text>
             </View>
@@ -177,7 +211,7 @@ const HomeScreen = props => {
                         nextPostPressed();
                     }}
                 >
-                    <Text style={{ color: "white", fontSize: 26, margin: 22 }}>Next{"\n\n"}Post</Text>
+                    <Text style={{ color: "white", fontSize: 24, margin: 12 }}>N{"\n"}e{"\n"}x{"\n"}t{"\n\n"}P{"\n"}o{"\n"}s{"\n"}t</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.reactions}>
@@ -327,7 +361,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 0
     },
     curPersonProfile: {
-        height: dHeight * 0.135,
+        height: dHeight * 0.185,
 
         borderWidth: 2,
         borderBottomColor: "black",
@@ -346,7 +380,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: Colors.standard,
         width: dWidth * 0.15,
-        height: dHeight * 0.67,
+        height: dHeight * 0.6,
 
         borderWidth: 2,
         borderLeftColor: "black",
@@ -356,14 +390,16 @@ const styles = StyleSheet.create({
     },
     reactions: {
         flexDirection: "row",
+        alignItems: "center",
         borderTopWidth: 2,
         borderTopColor: "black",
         backgroundColor: Colors.standard
     },
     reactionButts: {
         resizeMode: "contain",
-        width: 78,
-        height: 78,
+        width: dWidth*0.18,
+        margin: 1,
+        height: 70,
         borderRadius: 60,
         borderWidth: 1
     },

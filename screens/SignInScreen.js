@@ -1,3 +1,10 @@
+/**
+ * @description CS446 UI Design class mockup application for implementation and presentation portion
+ * of class project.
+ * @author Paul McCafferty
+ * @version 1.0.2
+ */
+
 import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, Keyboard, View, Text, TextInput, StyleSheet, Image, Dimensions, TouchableOpacity, Alert } from "react-native";
 import Colors from "../constants/Colors";
@@ -108,7 +115,7 @@ const SignInScreen = props => {
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-            <View style={{ top: dHeight * 0.1, justifyContent: "center", alignItems: "center", }}>
+            <View style={{ top: dHeight * 0.05, justifyContent: "center", alignItems: "center", }}>
                 <TextInput
                     ref={input => {
                         setLogTextInput(input);
